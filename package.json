@@ -1,0 +1,26 @@
+{
+  "name": "sherlock-pi",
+  "version": "1.0.0",
+  "description": "Deduce the code required to power a game from a user's animations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helix-pi/sherlock-pi.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/helix-pi/sherlock-pi/issues"
+  },
+  "homepage": "https://github.com/helix-pi/sherlock-pi#readme",
+  "dependencies": {
+    "typescript": "^2.2.0-dev.20161114"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.2",
+    "ts-node": "^1.7.0"
+  }
+}
