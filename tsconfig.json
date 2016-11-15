@@ -2,10 +2,10 @@
   "compilerOptions": {
     "target": "es5",
     "outDir": "dist/",
-    "module": "es6"
+    "module": "commonjs"
   },
   "files": [
-    "hello-world.ts",
+    "src/sherlock.ts",
     "typings/index.d.ts"
   ]
 }
