@@ -121,6 +121,39 @@ const CASES = [
         }
       }
     ]
+  },
+
+  {
+    label: 'handles n frames',
+
+    frames: [
+      {
+        frame: 0,
+
+        state: {
+          x: 0,
+          y: 0
+        }
+      },
+
+      {
+        frame: 1,
+
+        state: {
+          x: 10,
+          y: 0
+        }
+      },
+
+      {
+        frame: 2,
+
+        state: {
+          x: 20,
+          y: 0
+        }
+      }
+    ]
   }
 ]
 
@@ -131,10 +164,14 @@ describe('sherlock', () => {
         testCase.frames
       );
 
-      assert.deepEqual(
-        execute(deduction, testCase.frames[0].state),
-        testCase.frames[1].state
-      );
+      testCase.frames.reduce((startFrame, nextFrame) => {
+        assert.deepEqual(
+          execute(deduction, startFrame.state),
+          nextFrame.state
+        );
+
+        return startFrame;
+      });
     });
   })
 });
