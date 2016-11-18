@@ -1,6 +1,6 @@
 
-function sherlock (a, b) {
-  const diff = diffState(a, b);
+function sherlock (frames) {
+  const diff = diffState(frames[0].state, frames[1].state);
 
   const differentProperties = Object.keys(diff);
 
