@@ -6,7 +6,9 @@ interface Frame {
   state: Object,
   input: Object,
 
-  frame: Number
+  frame: Number,
+
+  actuallyExpectedState?: Object
 }
 
 interface TestCase {
@@ -240,6 +242,101 @@ const CASES: Array<TestCase> = [
         }
       },
     ]
+  },
+
+  {
+    label: 'will create conditionals when they mostly match',
+
+    frames: [
+      {
+        frame: 0,
+
+        state: {
+          x: 0,
+          y: 0
+        },
+
+        input: {
+          right: true,
+          left: false
+        }
+      },
+
+      {
+        frame: 1,
+
+        state: {
+          x: 5,
+          y: 0
+        },
+
+        input: {
+          right: true,
+          left: false
+        }
+      },
+
+      {
+        frame: 2,
+
+        state: {
+          x: 10,
+          y: 0
+        },
+
+        input: {
+          right: true,
+          left: false
+        }
+      },
+
+      {
+        frame: 3,
+
+        state: {
+          x: 15,
+          y: 0
+        },
+
+        input: {
+          right: true,
+          left: false
+        }
+      },
+
+      {
+        frame: 4,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        input: {
+          right: true,
+          left: false
+        }
+      },
+
+      {
+        frame: 5,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        actuallyExpectedState: {
+          x: 25,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      }
+    ]
   }
 ]
 
@@ -253,7 +350,7 @@ describe('sherlock', () => {
       testCase.frames.reduce((startFrame, nextFrame) => {
         assert.deepEqual(
           execute(deduction, startFrame.state, startFrame.input),
-          nextFrame.state,
+          nextFrame.actuallyExpectedState || nextFrame.state,
         );
 
         return nextFrame;

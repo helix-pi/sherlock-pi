@@ -1,5 +1,7 @@
 import * as deepEqual from 'deep-equal';
 
+const CONDITIONAL_CONFIDENCE = 0.8;
+
 function sherlock (frames) {
   const diff = diffState(frames[0].state, frames[1].state);
 
@@ -60,12 +62,17 @@ function sherlock (frames) {
 function findMatchingInputs (possibleFrames, frames) {
   const inputs = Object.keys(frames[0].input);
 
-  return inputs.filter(input =>
-    deepEqual(
-      possibleFrames,
-      frames.map(frame => frame.input[input]).slice(0, -1)
-    )
-  );
+  return inputs.filter(input => {
+    const total = possibleFrames.length;
+
+    const matchingFrames = possibleFrames.map((bool, index) => {
+      return bool === frames[index].input[input];
+    });
+
+    const confidence = matchingFrames.filter(b => !!b).length / total;
+
+    return confidence >= CONDITIONAL_CONFIDENCE;
+  })
 }
 
 function diffToCode (diff: Object): Object {
