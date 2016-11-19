@@ -2,7 +2,19 @@ import * as assert from 'assert';
 import sherlock from '../src/sherlock';
 import execute from '../src/execute';
 
-const CASES = [
+interface Frame {
+  state: Object,
+  input: Object,
+
+  frame: Number
+}
+
+interface TestCase {
+  label: string,
+  frames: Array<Frame>
+}
+
+const CASES: Array<TestCase> = [
   {
     label: 'handles moving to the right',
 
@@ -14,6 +26,8 @@ const CASES = [
           x: 100,
           y: 100
         },
+
+        input: {}
       },
 
       {
@@ -22,7 +36,9 @@ const CASES = [
         state: {
           x: 110,
           y: 100
-        }
+        },
+
+        input: {}
       }
     ]
   },
@@ -38,6 +54,8 @@ const CASES = [
           x: 100,
           y: 100
         },
+
+        input: {}
       },
 
       {
@@ -46,7 +64,9 @@ const CASES = [
         state: {
           x: 177,
           y: 100
-        }
+        },
+
+        input: {}
       }
     ]
   },
@@ -62,6 +82,8 @@ const CASES = [
           x: 100,
           y: 100
         },
+
+        input: {}
       },
 
       {
@@ -70,7 +92,9 @@ const CASES = [
         state: {
           x: 100,
           y: 150
-        }
+        },
+
+        input: {}
       }
     ]
   },
@@ -86,6 +110,8 @@ const CASES = [
           x: 100,
           y: 100
         },
+
+        input: {}
       },
 
       {
@@ -94,7 +120,9 @@ const CASES = [
         state: {
           x: 100,
           y: 100
-        }
+        },
+
+        input: {}
       }
     ]
   },
@@ -110,6 +138,8 @@ const CASES = [
           x: 100,
           y: 100
         },
+
+        input: {}
       },
 
       {
@@ -118,7 +148,9 @@ const CASES = [
         state: {
           x: 145,
           y: 170
-        }
+        },
+
+        input: {}
       }
     ]
   },
@@ -133,6 +165,50 @@ const CASES = [
         state: {
           x: 0,
           y: 0
+        },
+
+        input: {}
+      },
+
+      {
+        frame: 1,
+
+        state: {
+          x: 10,
+          y: 0
+        },
+
+        input: {}
+      },
+
+      {
+        frame: 2,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        input: {}
+      }
+    ]
+  },
+
+  {
+    label: 'creates conditional code for inputs',
+
+    frames: [
+      {
+        frame: 0,
+
+        state: {
+          x: 0,
+          y: 0
+        },
+
+        input: {
+          left: false,
+          right: true
         }
       },
 
@@ -142,6 +218,11 @@ const CASES = [
         state: {
           x: 10,
           y: 0
+        },
+
+        input: {
+          left: false,
+          right: false
         }
       },
 
@@ -149,10 +230,15 @@ const CASES = [
         frame: 2,
 
         state: {
-          x: 20,
+          x: 10,
           y: 0
+        },
+
+        input: {
+          left: false,
+          right: false
         }
-      }
+      },
     ]
   }
 ]
@@ -166,11 +252,11 @@ describe('sherlock', () => {
 
       testCase.frames.reduce((startFrame, nextFrame) => {
         assert.deepEqual(
-          execute(deduction, startFrame.state),
-          nextFrame.state
+          execute(deduction, startFrame.state, startFrame.input),
+          nextFrame.state,
         );
 
-        return startFrame;
+        return nextFrame;
       });
     });
   })

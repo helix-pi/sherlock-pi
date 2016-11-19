@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/helix-pi/sherlock-pi#readme",
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "typescript": "^2.2.0-dev.20161114"
   },
   "devDependencies": {
