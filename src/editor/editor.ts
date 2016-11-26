@@ -13,7 +13,7 @@ function view (state) {
       debug(state),
       svg([
         h('text', "hi")
-      ]),
+      ])
     ])
   )
 }

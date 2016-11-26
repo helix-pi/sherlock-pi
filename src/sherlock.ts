@@ -31,6 +31,43 @@ function sherlock (frames) {
     return codes[0];
   }
 
+  function sum (array) {
+    return array.reduce((acc, val) => acc + val, 0);
+  }
+
+  function average (array) {
+    return sum(array) / array.length;
+  }
+
+  function mostlyEqual (codes) {
+    if (codes.some(codeBits => codeBits.length === 0)) {
+      return false;
+    }
+
+    const averageBitValue = (
+      average(
+        codes
+          .map(codeBits => codeBits[0])
+          .map(bit => bit.value)
+      )
+    );
+
+    const differences = (
+      codes
+        .map(codeBits => codeBits[0])
+        .map(bit => Math.abs((averageBitValue / bit.value) - 1))
+    );
+
+    return differences.every(diff => diff < 0.1);
+  }
+
+  if (mostlyEqual(codes)) {
+    return codes[0];
+  }
+
+  // if we can draw a straight line through the code values with an r > 0.9
+  //   we're doing that straight line
+  //
   const code = codes[0];
 
   const framesToUseIn = codes.map(otherCode => deepEqual(code, otherCode));
@@ -109,6 +146,8 @@ function allEqual (array: Array<any>): Boolean {
 
   array.reduce((acc, val) => {
     equal = equal && deepEqual(acc, val);
+
+    return val;
   })
 
   return equal;

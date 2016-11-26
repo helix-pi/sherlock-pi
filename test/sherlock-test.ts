@@ -337,6 +337,130 @@ const CASES: Array<TestCase> = [
         }
       }
     ]
+  },
+
+  {
+    label: 'handles longer cases',
+    frames: [
+      {
+        frame: 0,
+
+        state: {
+          x: 0,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      },
+      {
+        frame: 1,
+
+        state: {
+          x: 10,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      },
+
+      {
+        frame: 2,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      },
+
+      {
+        frame: 3,
+
+        state: {
+          x: 30,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      }
+    ]
+  },
+  {
+    label: 'handles fuzzy data',
+    frames: [
+      {
+        frame: 0,
+
+        state: {
+          x: 0,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      },
+      {
+        frame: 1,
+
+        state: {
+          x: 10,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      },
+
+      {
+        frame: 2,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      },
+
+      {
+        frame: 3,
+
+        state: {
+          x: 29,
+          y: 0
+        },
+
+        actuallyExpectedState: {
+          x: 30,
+          y: 0
+        },
+
+        input: {
+          right: false,
+          left: false
+        }
+      }
+    ]
   }
 ]
 
