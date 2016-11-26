@@ -461,6 +461,80 @@ const CASES: Array<TestCase> = [
         }
       }
     ]
+  },
+  {
+    label: 'can create a pong paddle that moves down',
+    frames: [
+      {
+        frame: 0,
+
+        state: {
+          x: 0,
+          y: 0
+        },
+
+        input: {
+          down: false,
+          up: false
+        }
+      },
+
+      {
+        frame: 1,
+
+        state: {
+          x: 0,
+          y: 0
+        },
+
+        input: {
+          down: true,
+          up: false
+        }
+      },
+
+      {
+        frame: 2,
+
+        state: {
+          x: 10,
+          y: 0
+        },
+
+        input: {
+          down: true,
+          up: false
+        }
+      },
+
+      {
+        frame: 3,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        input: {
+          down: false,
+          up: false
+        }
+      },
+
+      {
+        frame: 4,
+
+        state: {
+          x: 20,
+          y: 0
+        },
+
+        input: {
+          down: false,
+          up: false
+        }
+      }
+    ]
   }
 ]
 

@@ -1,6 +1,7 @@
 import * as deepEqual from 'deep-equal';
 
 const CONDITIONAL_CONFIDENCE = 0.8;
+const PERMITTED_DIFFERENCE = 0.1;
 
 function sherlock (frames) {
   const diff = diffState(frames[0].state, frames[1].state);
@@ -31,60 +32,40 @@ function sherlock (frames) {
     return codes[0];
   }
 
-  function sum (array) {
-    return array.reduce((acc, val) => acc + val, 0);
-  }
-
-  function average (array) {
-    return sum(array) / array.length;
-  }
-
-  function mostlyEqual (codes) {
-    if (codes.some(codeBits => codeBits.length === 0)) {
-      return false;
-    }
-
-    const averageBitValue = (
-      average(
-        codes
-          .map(codeBits => codeBits[0])
-          .map(bit => bit.value)
-      )
-    );
-
-    const differences = (
-      codes
-        .map(codeBits => codeBits[0])
-        .map(bit => Math.abs((averageBitValue / bit.value) - 1))
-    );
-
-    return differences.every(diff => diff < 0.1);
-  }
-
   if (mostlyEqual(codes)) {
     return codes[0];
   }
 
-  // if we can draw a straight line through the code values with an r > 0.9
-  //   we're doing that straight line
-  //
-  const code = codes[0];
+  const possibleSolutions = codes.map(code => {
+    const framesToUseIn = codes.map(
+      otherCode => deepEqual(code, otherCode)
+    );
 
-  const framesToUseIn = codes.map(otherCode => deepEqual(code, otherCode));
+    const possibleInputs = findMatchingInputs(
+      framesToUseIn,
+      frames
+    );
 
-  const possibleInputs = findMatchingInputs(framesToUseIn, frames);
+    if (possibleInputs.length === 0) {
+      return false;
+    }
 
-  const input = possibleInputs[0];
+    const input = possibleInputs[0];
 
-  const conditional = {
-    type: 'inputConditional',
+    const conditional = {
+      type: 'inputConditional',
 
-    input,
+      input,
 
-    children: code
-  }
+      children: code
+    }
 
-  return [conditional];
+    return [conditional];
+  });
+
+  return possibleSolutions
+    .filter(solution => !!solution)[0];
+
 
   // given a series of frames
   // generate a diff between the state of each frame
@@ -151,6 +132,37 @@ function allEqual (array: Array<any>): Boolean {
   })
 
   return equal;
+}
+
+
+function sum (array) {
+  return array.reduce((acc, val) => acc + val, 0);
+}
+
+function average (array) {
+  return sum(array) / array.length;
+}
+
+function mostlyEqual (codes) {
+  if (codes.some(codeBits => codeBits.length === 0)) {
+    return false;
+  }
+
+  const averageBitValue = (
+    average(
+      codes
+        .map(codeBits => codeBits[0])
+        .map(bit => bit.value)
+    )
+  );
+
+  const differences = (
+    codes
+      .map(codeBits => codeBits[0])
+      .map(bit => Math.abs((averageBitValue / bit.value) - 1))
+  );
+
+  return differences.every(diff => diff < PERMITTED_DIFFERENCE);
 }
 
 export default sherlock;
